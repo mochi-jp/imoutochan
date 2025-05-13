@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>妹ちゃんの計算ツール</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Top 20% Section */
+        .top-section {
+            width: 100%;
+            height: 20vh;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding-right: 10%;
+        }
+
+        .top-section div {
+            text-align: right;
+        }
+
+        /* Center Section */
+        .center-section {
+            width: 100%;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        /* Result Display */
+        #result {
+            width: 250px;
+            border: 2px solid #000;
+            padding: 10px;
+            text-align: right;
+            font-size: calc(16px + 1.2px); /* Device-dependent + 1.2px */
+            user-select: all; /* Easy copy */
+            margin: 0 auto;
+        }
+
+        /* Input and Button */
+        .input-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #input4 {
+            width: 150px;
+            text-align: right;
+            padding: 5px;
+        }
+
+        #clearBtn {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            border: 1px solid #000;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Adjustable Spacer */
+        .spacer {
+            height: 20px; /* Adjustable via CSS */
+        }
+
+        /* Log Section */
+        .log-section {
+            width: 100%;
+            text-align: center;
+        }
+
+        #logToggle {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        #logDisplay {
+            width: 80%;
+            height: 100px; /* ~6 lines */
+            border: 1px solid #000;
+            overflow-y: auto;
+            margin: 10px auto;
+            padding: 10px;
+            text-align: left;
+            user-select: all; /* Easy copy */
+            display: none;
+        }
+
+        /* Scrollbar Styling */
+        #logDisplay::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #logDisplay::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        #logDisplay::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Section -->
+    <div class="top-section">
+        <div>
+            <span id="value1">[1,000,000]</span> " まで " &nbsp; <span id="value2">[10.21]</span> " % "<br>
+            <span id="valueA">[1,000,001]</span> " から " &nbsp; <span id="value3">[20.42]</span> " % "
+        </div>
+    </div>
+
+    <!-- Adjustable Spacer -->
+    <div class="spacer"></div>
+
+    <!-- Center Section -->
+    <div class="center-section">
+        <div>" 総額 " <span id="result">[0]</span></div>
+    </div>
+
+    <!-- Adjustable Spacer -->
+    <div class="spacer"></div>
+
+    <!-- Input and Clear Button -->
+    <div class="input-group">
+        <input type="number" id="input4" placeholder="数値を入力">
+        <button id="clearBtn">CL</button>
+    </div>
+
+    <!-- Adjustable Spacer -->
+    <div class="spacer"></div>
+
+    <!-- Log Section -->
+    <div class="log-section">
+        <button id="logToggle">ログ表示</button>
+        <div id="logDisplay"></div>
+    </div>
+
+    <script>
+        // Default values
+        let value1 = 1000000;
+        let value2 = 10.21;
+        let value3 = 20.42;
+
+        // DOM Elements
+        const value1Display = document.getElementById('value1');
+        const value2Display = document.getElementById('value2');
+        const valueADisplay = document.getElementById('valueA');
+        const value3Display = document.getElementById('value3');
+        const input4 = document.getElementById('input4');
+        const resultDisplay = document.getElementById('result');
+        const clearBtn = document.getElementById('clearBtn');
+        const logToggle = document.getElementById('logToggle');
+        const logDisplay = document.getElementById('logDisplay');
+
+        // Format number with commas
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        // Update display values
+        function updateDisplay() {
+            value1Display.textContent = `[${formatNumber(value1)}]`;
+            value2Display.textContent = `[${value2.toFixed(2)}]`;
+            valueADisplay.textContent = `[${formatNumber(value1 + 1)}]`;
+            value3Display.textContent = `[${value3.toFixed(2)}]`;
+            calculateResult();
+        }
+
+        // Calculate result
+        function calculateResult() {
+            const input4Value = parseFloat(input4.value) || 0;
+            let result = value1 * (value2 / 100);
+            if (input4Value > value1) {
+                result += (input4Value - value1) * (value3 / 100);
+            }
+            resultDisplay.textContent = `[${formatNumber(result.toFixed(2))}]`;
+            addLog(`計算: (${formatNumber(value1)} × ${value2.toFixed(2)}%) + (${formatNumber(input4Value)} - ${formatNumber(value1)}) × ${value3.toFixed(2)}% = ${formatNumber(result.toFixed(2))}`);
+        }
+
+        // Add log entry
+        function addLog(message) {
+            const logEntry = document.createElement('div');
+            logEntry.textContent = `${new Date().toLocaleString('ja-JP')}: ${message}`;
+            logDisplay.appendChild(logEntry);
+            logDisplay.scrollTop = logDisplay.scrollHeight; // Auto-scroll to bottom
+        }
+
+        // Clear inputs and result
+        clearBtn.addEventListener('click', () => {
+            input4.value = '';
+            resultDisplay.textContent = '[0]';
+            input4.focus(); // Focus input after clear
+            addLog('クリアしました');
+        });
+
+        // Toggle log display
+        logToggle.addEventListener('click', () => {
+            if (logDisplay.style.display === 'none') {
+                logDisplay.style.display = 'block';
+                logToggle.textContent = 'ログを閉じる';
+            } else {
+                logDisplay.style.display = 'none';
+                logToggle.textContent = 'ログ表示';
+            }
+        });
+
+        // Handle input changes
+        input4.addEventListener('input', calculateResult);
+
+        // Initialize display
+        updateDisplay();
+
+        // Optional: Allow updating value1, value2, value3 via external input (not specified in UI)
+        // For now, using defaults as per request
+    </script>
+</body>
+</html>
