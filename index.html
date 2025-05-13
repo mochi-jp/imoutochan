@@ -67,14 +67,14 @@
 <body>
     <!-- ① and ② -->
     <div class="input-group">
-        <input type="number" id="input1" value="1000000" placeholder="1,000,000">
-        <input type="number" id="input2" value="10.21" step="0.01" placeholder="10.21">
+        <input type="number" id="input1" value="1000000" placeholder="数値を入力">
+        <input type="number" id="input2" value="10.21" step="0.01" placeholder="数値を入力">
     </div>
 
     <!-- A and ③ -->
     <div class="input-group">
         <span id="valueA">[1,000,001]</span>
-        <input type="number" id="input3" value="20.42" step="0.01" placeholder="20.42">
+        <input type="number" id="input3" value="20.42" step="0.01" placeholder="数値を入力">
     </div>
 
     <div class="spacer"></div>
@@ -117,16 +117,16 @@
 
         // Update A display (① + 1)
         function updateValueA() {
-            const val1 = parseFloat(input1.value) || 0;
+            const val1 = parseFloat(input1.value.replace(/,/g, '')) || 0;
             valueA.textContent = `[${formatNumber(val1 + 1)}]`;
         }
 
         // Calculate result
         function calculateResult() {
-            const val1 = parseFloat(input1.value) || 0;
+            const val1 = parseFloat(input1.value.replace(/,/g, '')) || 0;
             const val2 = parseFloat(input2.value) || 0;
             const val3 = parseFloat(input3.value) || 0;
-            const val4 = parseFloat(input4.value) || 0;
+            const val4 = parseFloat(input4.value.replace(/,/g, '')) || 0;
 
             let calcResult = val1 * (val2 / 100);
             if (val4 > val1) {
@@ -138,34 +138,41 @@
         // Clear ④ and B
         function clearFields() {
             input4.value = '';
-            result.textContent = '[0]';
+            result.textContent = '';
             input4.focus(); // Focus on ④
         }
 
         // Event Listeners
         input1.addEventListener('input', () => {
-            updateValueA();
-            input1.value = formatNumber(parseFloat(input1.value.replace(/,/g, '')) || 0);
+            const rawValue = input1.value.replace(/,/g, '');
+            if (!isNaN(rawValue) && rawValue !== '') {
+                input1.value = formatNumber(parseFloat(rawValue));
+                updateValueA();
+            }
         });
         input2.addEventListener('input', () => {
-            input2.value = parseFloat(input2.value).toFixed(2) || '0.00';
+            if (!isNaN(input2.value) && input2.value !== '') {
+                input2.value = parseFloat(input2.value).toFixed(2);
+            }
         });
         input3.addEventListener('input', () => {
-            input3.value = parseFloat(input3.value).toFixed(2) || '0.00';
+            if (!isNaN(input3.value) && input3.value !== '') {
+                input3.value = parseFloat(input3.value).toFixed(2);
+            }
         });
         input4.addEventListener('input', () => {
-            const rawValue = 
-            input4.value.replace(/,/g, '')) || 0);
-        if (! inNaN(rawValue)&& rawValue !== '') {
-            input4.value = formatNunver(parseFloat(rawValue));
-        }
+            const rawValue = input4.value.replace(/,/g, '');
+            if (!isNaN(rawValue) && rawValue !== '') {
+                input4.value = formatNumber(parseFloat(rawValue));
+            }
         });
         calcBtn.addEventListener('click', calculateResult);
         clearBtn.addEventListener('click', clearFields);
 
         // Initialize
-        updateValueA();
         input1.value = formatNumber(input1.value);
+        updateValueA();
+        result.textContent = ''; // Initialize B as empty
     </script>
 </body>
 </html>
