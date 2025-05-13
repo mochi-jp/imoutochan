@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>妹ちゃんの計算ツール</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Input and Display Groups */
+        .input-group, .display-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 10px 0;
+        }
+
+        /* Result Display */
+        #result {
+            width: 250px;
+            border: 2px solid #000;
+            padding: 10px;
+            text-align: right;
+            font-size: calc(16px + 1.2px); /* Device-dependent + 1.2px */
+            user-select: all; /* Easy copy */
+        }
+
+        /* Input Fields */
+        input[type="number"] {
+            width: 150px;
+            text-align: right;
+            padding: 5px;
+            height: 30px;
+            box-sizing: border-box;
+        }
+
+        /* Buttons */
+        #clearBtn, #calcBtn {
+            width: 50px;
+            height: 30px;
+            border-radius: 5px;
+            border: 1px solid #000;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #clearBtn {
+            width: 30px; /* Square for CL button */
+        }
+
+        /* Spacer */
+        .spacer {
+            height: 10px; /* Adjustable */
+        }
+    </style>
+</head>
+<body>
+    <!-- ① and ② -->
+    <div class="input-group">
+        <input type="number" id="input1" value="1000000" placeholder="①">
+        <input type="number" id="input2" value="10.21" step="0.01" placeholder="②">
+    </div>
+
+    <!-- A and ③ -->
+    <div class="input-group">
+        <span id="valueA">[1,000,001]</span>
+        <input type="number" id="input3" value="20.42" step="0.01" placeholder="③">
+    </div>
+
+    <div class="spacer"></div>
+
+    <!-- B (Result) -->
+    <div class="display-group">
+        <span id="result">[0]</span>
+    </div>
+
+    <div class="spacer"></div>
+
+    <!-- ④ and C (Clear Button) -->
+    <div class="input-group">
+        <input type="number" id="input4" placeholder="④">
+        <button id="clearBtn">CL</button>
+    </div>
+
+    <div class="spacer"></div>
+
+    <!-- D (Calculate Button) -->
+    <div class="input-group">
+        <button id="calcBtn">計算</button>
+    </div>
+
+    <script>
+        // DOM Elements
+        const input1 = document.getElementById('input1');
+        const input2 = document.getElementById('input2');
+        const input3 = document.getElementById('input3');
+        const input4 = document.getElementById('input4');
+        const valueA = document.getElementById('valueA');
+        const result = document.getElementById('result');
+        const clearBtn = document.getElementById('clearBtn');
+        const calcBtn = document.getElementById('calcBtn');
+
+        // Format number with commas
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        // Update A display (① + 1)
+        function updateValueA() {
+            const val1 = parseFloat(input1.value) || 0;
+            valueA.textContent = `[${formatNumber(val1 + 1)}]`;
+        }
+
+        // Calculate result
+        function calculateResult() {
+            const val1 = parseFloat(input1.value) || 0;
+            const val2 = parseFloat(input2.value) || 0;
+            const val3 = parseFloat(input3.value) || 0;
+            const val4 = parseFloat(input4.value) || 0;
+
+            let calcResult = val1 * (val2 / 100);
+            if (val4 > val1) {
+                calcResult += (val4 - val1) * (val3 / 100);
+            }
+            result.textContent = `[${formatNumber(calcResult.toFixed(2))}]`;
+        }
+
+        // Clear ④ and B
+        function clearFields() {
+            input4.value = '';
+            result.textContent = '[0]';
+            input4.focus(); // Focus on ④
+        }
+
+        // Event Listeners
+        input1.addEventListener('input', () => {
+            updateValueA();
+            input1.value = formatNumber(parseFloat(input1.value.replace(/,/g, '')) || 0);
+        });
+        input2.addEventListener('input', () => {
+            input2.value = parseFloat(input2.value).toFixed(2) || '0.00';
+        });
+        input3.addEventListener('input', () => {
+            input3.value = parseFloat(input3.value).toFixed(2) || '0.00';
+        });
+        input4.addEventListener('input', () => {
+            input4.value = formatNumber(parseFloat(input4.value.replace(/,/g, '')) || 0);
+        });
+        calcBtn.addEventListener('click', calculateResult);
+        clearBtn.addEventListener('click', clearFields);
+
+        // Initialize
+        updateValueA();
+        input1.value = formatNumber(input1.value);
+    </script>
+</body>
+</html>
