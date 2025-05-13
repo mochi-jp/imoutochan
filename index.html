@@ -67,28 +67,28 @@
 <body>
     <!-- ① and ② -->
     <div class="input-group">
-        <input type="number" id="input1" value="1000000" placeholder="①">
-        <input type="number" id="input2" value="10.21" step="0.01" placeholder="②">
+        <input type="number" id="input1" value="1000000" placeholder="1,000,000">
+        <input type="number" id="input2" value="10.21" step="0.01" placeholder="10.21">
     </div>
 
     <!-- A and ③ -->
     <div class="input-group">
         <span id="valueA">[1,000,001]</span>
-        <input type="number" id="input3" value="20.42" step="0.01" placeholder="③">
+        <input type="number" id="input3" value="20.42" step="0.01" placeholder="20.42">
     </div>
 
     <div class="spacer"></div>
 
     <!-- B (Result) -->
     <div class="display-group">
-        <span id="result">[0]</span>
+        <span id="result"></span>
     </div>
 
     <div class="spacer"></div>
 
     <!-- ④ and C (Clear Button) -->
     <div class="input-group">
-        <input type="number" id="input4" placeholder="④">
+        <input type="number" id="input4" placeholder="数値を入力">
         <button id="clearBtn">CL</button>
     </div>
 
@@ -154,7 +154,11 @@
             input3.value = parseFloat(input3.value).toFixed(2) || '0.00';
         });
         input4.addEventListener('input', () => {
-            input4.value = formatNumber(parseFloat(input4.value.replace(/,/g, '')) || 0);
+            const rawValue = 
+            input4.value.replace(/,/g, '')) || 0);
+        if (! inNaN(rawValue)&& rawValue !== '') {
+            input4.value = formatNunver(parseFloat(rawValue));
+        }
         });
         calcBtn.addEventListener('click', calculateResult);
         clearBtn.addEventListener('click', clearFields);
