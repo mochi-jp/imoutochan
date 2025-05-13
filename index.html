@@ -34,7 +34,7 @@
         }
 
         /* Input Fields */
-        input[type="number"] {
+        input[type="number"], input[type="text"] {
             width: 150px;
             text-align: right;
             padding: 5px;
@@ -67,7 +67,7 @@
 <body>
     <!-- ① and ② -->
     <div class="input-group">
-        <input type="number" id="input1" value="1000000" placeholder="数値を入力">
+        <input type="text" id="input1" value="1,000,000" placeholder="数値を入力">
         <input type="number" id="input2" value="10.21" step="0.01" placeholder="数値を入力">
     </div>
 
@@ -88,7 +88,7 @@
 
     <!-- ④ and C (Clear Button) -->
     <div class="input-group">
-        <input type="number" id="input4" placeholder="数値を入力">
+        <input type="text" id="input4" placeholder="数値を入力">
         <button id="clearBtn">CL</button>
     </div>
 
@@ -112,6 +112,7 @@
 
         // Format number with commas
         function formatNumber(num) {
+            if (isNaN(num) || num === '') return '';
             return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
         }
 
@@ -142,35 +143,48 @@
             input4.focus(); // Focus on ④
         }
 
-        // Event Listeners
+        // Input validation and formatting
         input1.addEventListener('input', () => {
-            const rawValue = input1.value.replace(/,/g, '');
+            let rawValue = input1.value.replace(/,/g, '');
             if (!isNaN(rawValue) && rawValue !== '') {
-                input1.value = formatNumber(parseFloat(rawValue));
+                rawValue = parseFloat(rawValue).toString(); // Remove decimals
+                input1.value = formatNumber(rawValue);
+                updateValueA();
+            } else {
+                input1.value = '';
                 updateValueA();
             }
         });
         input2.addEventListener('input', () => {
             if (!isNaN(input2.value) && input2.value !== '') {
                 input2.value = parseFloat(input2.value).toFixed(2);
+            } else {
+                input2.value = '0.00';
             }
         });
         input3.addEventListener('input', () => {
             if (!isNaN(input3.value) && input3.value !== '') {
                 input3.value = parseFloat(input3.value).toFixed(2);
+            } else {
+                input3.value = '0.00';
             }
         });
         input4.addEventListener('input', () => {
-            const rawValue = input4.value.replace(/,/g, '');
+            let rawValue = input4.value.replace(/,/g, '');
             if (!isNaN(rawValue) && rawValue !== '') {
-                input4.value = formatNumber(parseFloat(rawValue));
+                rawValue = parseFloat(rawValue).toString(); // Remove decimals
+                input4.value = formatNumber(rawValue);
+            } else {
+                input4.value = '';
             }
         });
+
+        // Button events
         calcBtn.addEventListener('click', calculateResult);
         clearBtn.addEventListener('click', clearFields);
 
         // Initialize
-        input1.value = formatNumber(input1.value);
+        input1.value = formatNumber(input1.value.replace(/,/g, ''));
         updateValueA();
         result.textContent = ''; // Initialize B as empty
     </script>
