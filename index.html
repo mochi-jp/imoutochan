@@ -46,7 +46,7 @@
             margin: 0 auto;
         }
 
-        /* Input and Button */
+        /* Input and Buttons */
         .input-group {
             display: flex;
             justify-content: center;
@@ -60,8 +60,8 @@
             padding: 5px;
         }
 
-        #clearBtn {
-            width: 30px;
+        #calcBtn, #clearBtn {
+            width: 50px; /* calcBtn slightly wider for text */
             height: 30px;
             border-radius: 5px;
             border: 1px solid #000;
@@ -69,6 +69,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        #clearBtn {
+            width: 30px; /* Keep CL button square */
         }
 
         /* Adjustable Spacer */
@@ -118,8 +122,8 @@
     <!-- Top Section -->
     <div class="top-section">
         <div>
-            <span id="value1">[1,000,000]</span> " まで " &nbsp; <span id="value2">[10.21]</span> " % "<br>
-            <span id="valueA">[1,000,001]</span> " から " &nbsp; <span id="value3">[20.42]</span> " % "
+            <span id="value1">[1,000,000]</span> " まで "   <span id="value2">[10.21]</span> " % "<br>
+            <span id="valueA">[1,000,001]</span> " から "   <span id="value3">[20.42]</span> " % "
         </div>
     </div>
 
@@ -134,9 +138,10 @@
     <!-- Adjustable Spacer -->
     <div class="spacer"></div>
 
-    <!-- Input and Clear Button -->
+    <!-- Input and Buttons -->
     <div class="input-group">
         <input type="number" id="input4" placeholder="数値を入力">
+        <button id="calcBtn">計算</button>
         <button id="clearBtn">CL</button>
     </div>
 
@@ -161,8 +166,9 @@
         const valueADisplay = document.getElementById('valueA');
         const value3Display = document.getElementById('value3');
         const input4 = document.getElementById('input4');
-        const resultDisplay = document.getElementById('result');
+        const calcBtn = document.getElementById('calcBtn');
         const clearBtn = document.getElementById('clearBtn');
+        const resultDisplay = document.getElementById('result');
         const logToggle = document.getElementById('logToggle');
         const logDisplay = document.getElementById('logDisplay');
 
@@ -177,7 +183,6 @@
             value2Display.textContent = `[${value2.toFixed(2)}]`;
             valueADisplay.textContent = `[${formatNumber(value1 + 1)}]`;
             value3Display.textContent = `[${value3.toFixed(2)}]`;
-            calculateResult();
         }
 
         // Calculate result
@@ -199,6 +204,12 @@
             logDisplay.scrollTop = logDisplay.scrollHeight; // Auto-scroll to bottom
         }
 
+        // Calculate button click
+        calcBtn.addEventListener('click', () => {
+            calculateResult();
+            addLog('計算ボタンを押しました');
+        });
+
         // Clear inputs and result
         clearBtn.addEventListener('click', () => {
             input4.value = '';
@@ -218,14 +229,8 @@
             }
         });
 
-        // Handle input changes
-        input4.addEventListener('input', calculateResult);
-
         // Initialize display
         updateDisplay();
-
-        // Optional: Allow updating value1, value2, value3 via external input (not specified in UI)
-        // For now, using defaults as per request
     </script>
 </body>
 </html>
