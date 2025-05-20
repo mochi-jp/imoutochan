@@ -1,0 +1,14 @@
+<input type="text" id="numberInput" oninput="formatNumber(this)" placeholder="金額を入力してね">
+
+<script>
+function formatNumber(el) {
+  // 数字以外を除去して、カンマ付きに整形
+  let value = el.value.replace(/,/g, '');
+  if (!isNaN(value)) {
+    el.value = Number(value).toLocaleString();
+  } else {
+    el.value = '';
+  }
+
+}
+</script>
