@@ -20,14 +20,47 @@
     border-radius: 8px;
     text-align: right;
     border: 3px solid #cccccc;
-}    
+} 
+　　#inputNumber {
+     width: 40px;
+    font-size: 20px;
+    magrin-left:30px:
+    padding: 10px;
+    margin: 15px 0;
+    border-radius: 8px;
+    text-align: right;
+    border: 3px solid #cccccc;
+}   
 </style>
 </head>
     
 <body>
+　　　<label>基準の数値：<input type="text" id="baseValue" placeholder="例: 500" /></label><br>
+<label>割合（％）：<input type="text" id="percentValue" placeholder="例: 12.5" /></label><span>%</span><br>
+<button onclick="calculatePercent()">計算する！</button>
+<p id="resultArea"></p>
 
-      <input type="text" id="inputNumber" oninput="formatNumber(this)" placeholder="値" />
-   
+<script>
+function calculatePercent() {
+  const base = parseFloat(document.getElementById('baseValue').value);
+  const percent = parseFloat(document.getElementById('percentValue').value);
+  const resultArea = document.getElementById('resultArea');
+
+  if (!isNaN(base) && !isNaN(percent)) {
+    const result = base * (percent / 100);
+    resultArea.textContent = `${base} の ${percent}% は → ${result}`;
+  } else {
+    resultArea.textContent = 'ちゃんと数値を入力してね！';
+  }
+}
+</script>
+
+
+
+    
+      <input type="text" id="inputNumber" oninput="formatNumber(this)" placeholder="値" />&thinsp;まで&emsp;
+　　　<input type="text" id="inputNumber" oninput="formatNumber(this)" placeholder="値" />&thinsp;％
+    
   <script>
      function formatNumber(el) {
     // 数字以外を除去して、カンマ付きに整形
