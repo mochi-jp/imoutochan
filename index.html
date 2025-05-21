@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>妹ちゃんの分岐計算機★</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 30px auto auto;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    input {
+      width: 120px;
+      padding: 5px;
+      text-align: right;
+    }
+
+    span, label {
+      font-size: 16px;
+    }
+
+    button {
+      padding: 8px 15px;
+      border-radius: 10px;
+      border: none;
+      background-color: #5ec5ff;
+      color: white;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="row">
+    <span>A.</span>
+    <label>〜 <input type="text" id="amountA" placeholder="1,000,000" oninput="updateNextStart()" /></label>
+    <label>税率 <input type="text" id="rateB" placeholder="10.25" /> %</label>
+  </div>
+
+  <div class="row">
+    <span>B.</span>
+    <span id="nextStart">1,000,001</span>
+    <label>税率 <input type="text" id="rateC" placeholder="20.06" /> %</label>
+  </div>
+
+  <div class="row">
+    <span>C.</span>
+    <label>計算する金額 <input type="text" id="amountD" placeholder="例: 1,550,000" /></label>
+  </div>
+
+  <button onclick="calculate()">計算する！</button>
+
+  <div id="result"></div>
+
+  <script>
+    function toNumber(str) {
+      return parseFloat(str.replace(/,/g, ''));
+    }
+
+    function toComma(num) {
+      return num.toLocaleString(undefined, { maximumFractionDigits: 1 });
+    }
+
+    function updateNextStart() {
+      const a = toNumber(document.getElementById('amountA').value);
+      document.getElementById('nextStart').textContent = isNaN(a) ? '---' : toComma(a + 1);
+    }
+
+    function calculate() {
+      const amountA = toNumber(document.getElementById('amountA').value);
+      const rateB = parseFloat(document.getElementById('rateB').value);
+      const rateC = parseFloat(document.getElementById('rateC').value);
+      const amountD = toNumber(document.getElementById('amountD').value);
+      const resultDiv = document.getElementById('result');
+
+      if (isNaN(amountA) || isNaN(rateB) || isNaN(rateC) || isNaN(amountD)) {
+        resultDiv.textContent = 'どこかの値が足りないか間違ってるよ〜！';
+        return;
+      }
+
+      let part1 = 0;
+      let part2 = 0;
+      let formula = '';
+
+      if (amountD <= amountA) {
+        part1 = amountD * (rateB / 100);
+        formula = `${toComma(amountD)} × ${rateB}%`;
+      } else {
+        part1 = amountA * (rateB / 100);
+        part2 = (amountD - amountA) * (rateC / 100);
+        formula = `(${toComma(amountA)} × ${rateB}%) ＋ (${toComma(amountD - amountA)} × ${rateC}%)`;
+      }
+
+      const total = part1 + part2;
+      resultDiv.textContent = `${formula} ＝ ${toComma(total)}（小数点第1位まで）`;
+    }
+  </script>
+
+</body>
+</html>
