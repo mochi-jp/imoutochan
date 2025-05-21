@@ -49,7 +49,7 @@
 
   <div class="row">
     <span>A.</span>
-    <label>〜 <input type="text" id="amountA" placeholder="1,000,000" oninput="updateNextStart()" /></label>
+    <label><input type="text" id="amountA" placeholder="1,000,000" oninput="updateNextStart()" /> まで</label>
     <label>税率 <input type="text" id="rateB" placeholder="10.25" /> %</label>
   </div>
 
