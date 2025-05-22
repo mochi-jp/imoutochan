@@ -1,0 +1,140 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>妹ちゃんの分岐計算機★</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+    }
+
+    .row {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 500px;
+    }
+
+    .line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /*付け足したけど、どう指定されてるのか、あとで質問メモ*/
+    .line button {
+      margin-left: 10px; /* ちょっと左にスペースを空ける */
+      height: 34px; /* 入力欄の高さに合わせる（必要なら調整OK） */
+      padding: 5px 15px;
+      display: flex;
+      align-items: center; /* ボタン内の文字も上下中央に */  
+      margin-top: 0; /* ← これを明示的にリセットしてズレを防ぐ！ */
+    }
+    
+    input {
+      padding: 5px;
+      text-align: right;
+    }
+
+    span {
+      font-size: 16px;
+    }
+
+    button {
+      padding: 8px 15px;
+      border-radius: 10px;
+      border: none;
+      background-color: #5ec5ff;
+      color: white;
+      font-weight: bold;
+      margin-top: 15px;
+      width: fit-content;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .left-label {
+      width: 130px;
+      text-align: right;
+      display: inline-block;
+    }
+
+    .left-label input {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="row">
+
+    <!-- 1行目 -->
+    <div class="line">
+      <span class="left-label">
+        <input type="text" id="amountA" oninput="formatNumber(this)" value="1,000,000" placeholder="1,000,000" oninput="updateNextStart()" />
+      </span>
+      <span>まで 税率</span>
+      <input type="text" id="rateB" value="10.21" placeholder="10.21" />
+      <span>%</span>
+    </div>
+
+    <!-- 2行目 -->
+    <div class="line">
+      <span class="left-label" id="nextStart">1,000,001</span>
+      <span>から 税率</span>
+      <input type="text" id="rateC" value="20.42" placeholder="20.42" />
+      <span>%</span>
+    </div>
+
+    <!-- 3行目 -->
+    <div class="line">
+      <span class="left-label">計算する金額</span>
+      <input type="text" id="amountD" oninput="formatNumber(this)" placeholder="例: 1,550,000" />
+      <button onclick="calculate()">計算する！</button>
+    </div>
+    <div id="result"></div>
+
+  </div>
+
+  <script>
+  function updateNextStart() {
+    const amountA = document.getElementById("amountA").value.replace(/,/g, "");
+    const next = parseFloat(amountA) + 1;
+    if (!isNaN(next)) {
+      document.getElementById("nextStart").textContent = next.toLocaleString();
+    } else {
+      document.getElementById("nextStart").textContent = "";
+    }
+  }
+
+  function calculate() {
+    const a = parseFloat(document.getElementById("amountA").value.replace(/,/g, ""));
+    const b = parseFloat(document.getElementById("rateB").value);
+    const c = parseFloat(document.getElementById("rateC").value);
+    const d = parseFloat(document.getElementById("amountD").value.replace(/,/g, ""));
+
+    if (isNaN(a) || isNaN(b) || isNaN(c) || isNaN(d)) {
+      document.getElementById("result").textContent = "入力値をすべて正しく入力してください。";
+      return;
+    }
+
+    const base = Math.min(d, a);
+    const over = d > a ? d - a : 0;
+    const result = base * (b / 100) + over * (c / 100);
+
+    document.getElementById("result").innerHTML =
+      `<strong>${result.toLocaleString()}円</strong>`;
+  }
+
+  function formatNumber(el) {
+    let value = el.value.replace(/,/g, '');
+    if (!isNaN(value)) {
+      el.value = Number(value).toLocaleString();
+    } else {
+      el.value = '';
+    } 
+  }
+</script>
