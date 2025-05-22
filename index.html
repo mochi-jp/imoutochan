@@ -126,7 +126,9 @@
     const result = base * (b / 100) + over * (c / 100);
 
     document.getElementById("result").innerHTML =
-      `result.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+      `result.toLocaleString(undefined, { 
+      result.toLocaleString(undefined, { maximumFractionDigits: 1 })
+
   }
 
   function formatNumber(el) {
