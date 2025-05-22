@@ -10,13 +10,6 @@
       padding: 20px;
     }
 
-    .row {
-     /* display: grid;*/      
-     /*grid-template-columns: 30％ 20％ 30％;*/
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 10px;
-    }
 
     input {
       width: 120px;
@@ -53,17 +46,11 @@
 </head>
 <body>
 
-  <div class="row">
     <label><input type="text" id="amountA" placeholder="1,000,000" oninput="updateNextStart()" /> まで&emsp;&emsp;税率 <input type="text" id="rateB" placeholder="10.25" /> %</label>
-  </div>
-
-  <div class="row">
-     <label><span class "display" id="nextStart">1,000,001</span> から&emsp;&emsp;税率 <input type="text" id="rateC" placeholder="20.06" /> %</label>
-  </div>
-
-  <div class="row">
+  
+    <label><span class "display" id="nextStart">1,000,001</span> から&emsp;&emsp;税率 <input type="text" id="rateC" placeholder="20.06" /> %</label>
+  
     <label>計算する金額 <input type="text" id="amountD" placeholder="例: 1,550,000" /></label>
-  </div>
 
   <button onclick="calculate()">計算する！</button>
 
