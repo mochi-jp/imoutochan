@@ -21,6 +21,11 @@
       gap: 10px;
     }
 
+    /*付け足したけど、どう指定されてるのか、あとで質問メモ*/
+    .line button {
+      margin-left: 10px; /* ちょっと左にスペースを空ける */
+    }
+    
     input {
       padding: 5px;
       text-align: right;
@@ -83,9 +88,8 @@
     <div class="line">
       <span class="left-label">計算する金額</span>
       <input type="text" id="amountD" placeholder="例: 1,550,000" />
+      <button onclick="calculate()">計算する！</button>
     </div>
-
-    <button onclick="calculate()">計算する！</button>
     <div id="result"></div>
 
   </div>
