@@ -126,7 +126,7 @@
     const result = base * (b / 100) + over * (c / 100);
 
     document.getElementById("result").innerHTML =
-      `<strong>${result.toLocaleString()}円</strong>`;
+      `result.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 })
   }
 
   function formatNumber(el) {
