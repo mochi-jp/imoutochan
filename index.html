@@ -50,6 +50,7 @@
   </style>
 </head>
 <body>
+  <div class="row">
    <div>
     <label><input type="text" id="amountA" placeholder="1,000,000" oninput="updateNextStart()" /> まで&emsp;&emsp;税率 <input type="text" id="rateB" placeholder="10.25" /> %</label>
    </div>
@@ -60,7 +61,7 @@
     <label>計算する金額 <input type="text" id="amountD" placeholder="例: 1,550,000" /></label>
    </div>
   <button onclick="calculate()">計算する！</button>
-
+  </div>
   <div id="result"></div>
 
   <script>
