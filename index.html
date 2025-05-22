@@ -10,10 +10,17 @@
       padding: 20px;
     }
 
-     .row {
-      gap: 10px;
+    .row {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      max-width: 500px;
+    }
+
+    .line {
+      display: flex;
       align-items: center;
-      margin-bottom: 10px;
+      gap: 10px;
     }
 
     input {
@@ -34,6 +41,7 @@
       color: white;
       font-weight: bold;
       margin-top: 15px;
+      width: fit-content;
     }
 
     #result {
@@ -43,70 +51,69 @@
     }
 
     .display {
-    
-    width: 120px;
-    text : algan-right
+      width: 120px;
+      text-align: right;
+      display: inline-block;
     }
   </style>
 </head>
 <body>
+
   <div class="row">
-   <div>
-    <label><input type="text" id="amountA" placeholder="1,000,000" oninput="updateNextStart()" /> まで&emsp;&emsp;税率 <input type="text" id="rateB" placeholder="10.25" /> %</label>
-   </div>
-   <div>
-    <label><span style=class "display"><span id="nextStart">1,000,001</span> から&emsp;&emsp;税率 <input type="text" id="rateC" placeholder="20.06" /> %</label>
-   </div>
-   <div>
-    <label>計算する金額 <input type="text" id="amountD" placeholder="例: 1,550,000" /></label>
-   </div>
-  <button onclick="calculate()">計算する！</button>
+
+    <div class="line">
+      <label><input type="text" id="amountA" placeholder="1,000,000" oninput="updateNextStart()" /></label>
+      <span>まで 税率</span>
+      <input type="text" id="rateB" placeholder="10.25" />
+      <span>%</span>
+    </div>
+
+    <div class="line">
+      <span class="display" id="nextStart">1,000,001</span>
+      <span>から 税率</span>
+      <input type="text" id="rateC" placeholder="20.06" />
+      <span>%</span>
+    </div>
+
+    <div class="line">
+      <span>計算する金額</span>
+      <input type="text" id="amountD" placeholder="例: 1,550,000" />
+    </div>
+
+    <button onclick="calculate()">計算する！</button>
+    <div id="result"></div>
+
   </div>
-  <div id="result"></div>
 
   <script>
-    function toNumber(str) {
-      return parseFloat(str.replace(/,/g, ''));
-    }
-
-    function toComma(num) {
-      return num.toLocaleString(undefined, { maximumFractionDigits: 1 });
-    }
-
     function updateNextStart() {
-      const a = toNumber(document.getElementById('amountA').value);
-      document.getElementById('nextStart').textContent = isNaN(a) ? '---' : toComma(a + 1);
+      const a = document.getElementById("amountA").value.replace(/,/g, "");
+      const next = parseInt(a) + 1;
+      if (!isNaN(next)) {
+        document.getElementById("nextStart").textContent = next.toLocaleString();
+      } else {
+        document.getElementById("nextStart").textContent = "";
+      }
     }
 
     function calculate() {
-      const amountA = toNumber(document.getElementById('amountA').value);
-      const rateB = parseFloat(document.getElementById('rateB').value);
-      const rateC = parseFloat(document.getElementById('rateC').value);
-      const amountD = toNumber(document.getElementById('amountD').value);
-      const resultDiv = document.getElementById('result');
+      const a = parseFloat(document.getElementById("amountA").value.replace(/,/g, ""));
+      const b = parseFloat(document.getElementById("rateB").value);
+      const c = parseFloat(document.getElementById("rateC").value);
+      const d = parseFloat(document.getElementById("amountD").value.replace(/,/g, ""));
 
-      if (isNaN(amountA) || isNaN(rateB) || isNaN(rateC) || isNaN(amountD)) {
-        resultDiv.textContent = 'どこかの値が足りないか間違ってるよ〜！';
+      if (isNaN(a) || isNaN(b) || isNaN(c) || isNaN(d)) {
+        document.getElementById("result").textContent = "すべての項目に正しい数値を入力してください。";
         return;
       }
 
-      let part1 = 0;
-      let part2 = 0;
-      let formula = '';
+      const base = Math.min(d, a);
+      const excess = Math.max(0, d - a);
+      const result = base * (b / 100) + excess * (c / 100);
 
-      if (amountD <= amountA) {
-        part1 = amountD * (rateB / 100);
-        formula = `${toComma(amountD)} × ${rateB}%`;
-      } else {
-        part1 = amountA * (rateB / 100);
-        part2 = (amountD - amountA) * (rateC / 100);
-        formula = `(${toComma(amountA)} × ${rateB}%) ＋ (${toComma(amountD - amountA)} × ${rateC}%)`;
-      }
-
-      const total = part1 + part2;
-      resultDiv.textContent = `${formula} ＝ ${toComma(total)}（小数点第1位まで）`;
+      document.getElementById("result").textContent =
+        `(${base.toLocaleString()} × ${b}%) ＋ (${excess.toLocaleString()} × ${c}%) = ${result.toFixed(1).toLocaleString()}`;
     }
   </script>
-
 </body>
 </html>
