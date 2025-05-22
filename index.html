@@ -99,7 +99,7 @@
 
   </div>
 
-  <script>
+<script>
   function updateNextStart() {
     const amountA = document.getElementById("amountA").value.replace(/,/g, "");
     const next = parseFloat(amountA) + 1;
@@ -126,8 +126,7 @@
     const result = base * (b / 100) + over * (c / 100);
 
     document.getElementById("result").innerHTML =
-      `result.toLocaleString(undefined, { maximumFractionDigits: 1 })
-
+       <strong>${result.toLocaleString(undefined, { maximumFractionDigits: 1 })}円</strong>`;
   }
 
   function formatNumber(el) {
