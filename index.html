@@ -73,7 +73,7 @@
     <!-- 1行目 -->
     <div class="line">
       <span class="left-label">
-        <input type="text" id="amountA" value="1,000,000" placeholder="1,000,000" oninput="updateNextStart()" />
+        <input type="text" id="amountA" oninput="formatNumber(this)" value="1,000,000" placeholder="1,000,000" oninput="updateNextStart()" />
       </span>
       <span>まで 税率</span>
       <input type="text" id="rateB" value="10.21" placeholder="10.21" />
@@ -91,7 +91,7 @@
     <!-- 3行目 -->
     <div class="line">
       <span class="left-label">計算する金額</span>
-      <input type="text" id="amountD" placeholder="例: 1,550,000" />
+      <input type="text" id="amountD" oninput="formatNumber(this)" placeholder="例: 1,550,000" />
       <button onclick="calculate()">計算する！</button>
     </div>
     <div id="result"></div>
@@ -127,5 +127,15 @@
       document.getElementById("result").textContent =
         `(${base.toLocaleString()} × ${b}%) ＋ (${over.toLocaleString()} × ${c}%) ＝ ${result.toFixed(1).toLocaleString()}`;
     }
+
+    function formatNumber(el) {
+  // 数字以外を除去して、カンマ付きに整形
+      let value = el.value.replace(/,/g, '');
+      if (!isNaN(value)) {
+      el.value = Number(value).toLocaleString();
+     } else {
+     el.value = '';
+     } 
+   }
   </script>
 </body>
