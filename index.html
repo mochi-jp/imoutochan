@@ -124,21 +124,22 @@
       const base = Math.min(d, a);
       const over = d > a ? d - a : 0;
       const result = base * (b / 100) + over * (c / 100);
+      const total = result; // ← これを追加
 
       //document.getElementById("result").textContent =
         //`(${base.toLocaleString()} × ${b}%) ＋ (${over.toLocaleString()} × ${c}%) ＝ ${result.toFixed(1).toLocaleString()}`;
     //}
        document.getElementById("result").innerHTML =
          `<strong>${total.toLocaleString()}円</strong>`;
-      
+   }
     function formatNumber(el) {
   // 数字以外を除去して、カンマ付きに整形
       let value = el.value.replace(/,/g, '');
       if (!isNaN(value)) {
       el.value = Number(value).toLocaleString();
      } else {
-     el.value = '';
+      el.value = '';
      } 
-   }
+  
   </script>
 </body>
