@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="ja">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -43,8 +45,17 @@
 
     #result {
       margin-top: 20px;
-      font-weight: bold;
       font-size: 18px;
+    }
+
+    .calc-expression {
+      color: #888;
+      font-size: 15px;
+    }
+
+    .calc-value {
+      font-weight: bold;
+      font-size: 20px;
     }
 
     .left-label {
@@ -58,9 +69,19 @@
     }
 
     .line button {
-     margin-left: 10px; /* ちょっと左にスペースを空ける */
-}
+      margin-left: 10px;
+    }
 
+    .narrow-input {
+      width: 70px;
+      border: 2px solid red;
+      border-radius: 5px;
+    }
+
+    .red-border {
+      border: 2px solid red;
+      border-radius: 5px;
+    }
   </style>
 </head>
 <body>
@@ -69,10 +90,10 @@
     <!-- 1行目 -->
     <div class="line">
       <span class="left-label">
-        <input type="text" id="amountA" oninput="formatNumber(this); updateNextStart()" value="1,000,000" placeholder="1,000,000" />
+        <input type="text" id="amountA" oninput="formatNumber(this); updateNextStart()" value="1,000,000" placeholder="1,000,000" class="red-border" />
       </span>
       <span>まで 税率</span>
-      <input type="text" id="rateB"  value="10.21" placeholder="10.21" />
+      <input type="text" id="rateB" value="10.21" placeholder="10.21" class="narrow-input" />
       <span>%</span>
     </div>
 
@@ -80,18 +101,17 @@
     <div class="line">
       <span class="left-label" id="nextStart">1,000,001</span>
       <span>から 税率</span>
-      <input type="text" id="rateC"  value="20.42" placeholder="20.42" />
+      <input type="text" id="rateC" value="20.42" placeholder="20.42" class="narrow-input" />
       <span>%</span>
     </div>
 
     <!-- 3行目 -->
-   <div class="line">
-     <span class="left-label">計算する金額</span>
-     <input type="text" id="amountD" oninput="formatNumber(this)" placeholder="例: 1,550,000" />
-    <button onclick="calculate()">計算する！</button>
-   </div>
-   <div id="result"></div>
-
+    <div class="line">
+      <span class="left-label">計算する金額</span>
+      <input type="text" id="amountD" oninput="formatNumber(this)" placeholder="例: 1,550,000" />
+      <button onclick="calculate()">計算する！</button>
+    </div>
+    <div id="result"></div>
 
   </div>
 
@@ -120,20 +140,42 @@
       const base = Math.min(d, a);
       const over = d > a ? d - a : 0;
       const result = base * (b / 100) + over * (c / 100);
-      // 小数点第1位を見て、0.5以上なら繰り上げ、未満なら切り捨て
       const rounded = (result % 1 >= 0.5) ? Math.ceil(result) : Math.floor(result);
 
-      document.getElementById("result").textContent =
-        `(${base.toLocaleString()} × ${b}%) ＋ (${over.toLocaleString()} × ${c}%) ＝ ${result.toFixed(1).toLocaleString()}`;
+      document.getElementById("result").innerHTML =
+        `<div class="calc-expression">(${base.toLocaleString()} × ${b}%) ＋ (${over.toLocaleString()} × ${c}%)</div>` +
+        `<div class="calc-value">${rounded.toLocaleString()} 円</div>`;
     }
+
     function formatNumber(el) {
-  // 数字以外を除去して、カンマ付きに整形
       let value = el.value.replace(/,/g, '');
       if (!isNaN(value)) {
-      el.value = Number(value).toLocaleString();
-    } else {
-      el.value = '';
-  }
-}
+        el.value = Number(value).toLocaleString();
+      } else {
+        el.value = '';
+      }
+    }
+
+    // フォーカス移動＆Enter計算対応
+    window.addEventListener("DOMContentLoaded", () => {
+      const inputA = document.getElementById("amountA");
+      const inputB = document.getElementById("rateB");
+      const inputC = document.getElementById("rateC");
+      const inputD = document.getElementById("amountD");
+
+      inputA.addEventListener("keydown", e => {
+        if (e.key === "Enter") inputB.focus();
+      });
+      inputB.addEventListener("keydown", e => {
+        if (e.key === "Enter") inputC.focus();
+      });
+      inputC.addEventListener("keydown", e => {
+        if (e.key === "Enter") inputD.focus();
+      });
+      inputD.addEventListener("keydown", e => {
+        if (e.key === "Enter") calculate();
+      });
+    });
   </script>
 </body>
+</html>
