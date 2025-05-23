@@ -56,6 +56,11 @@
     .left-label input {
       width: 100%;
     }
+
+    .line button {
+  margin-left: 10px; /* ちょっと左にスペースを空ける */
+}
+
   </style>
 </head>
 <body>
@@ -80,13 +85,13 @@
     </div>
 
     <!-- 3行目 -->
-    <div class="line">
-      <span class="left-label">計算する金額</span>
-      <input type="text" id="amountD" placeholder="例: 1,550,000" />
-    </div>
-
+   <div class="line">
+     <span class="left-label">計算する金額</span>
+     <input type="text" id="amountD" placeholder="例: 1,550,000" />
     <button onclick="calculate()">計算する！</button>
-    <div id="result"></div>
+   </div>
+   <div id="result"></div>
+
 
   </div>
 
