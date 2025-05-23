@@ -120,7 +120,8 @@
       const base = Math.min(d, a);
       const over = d > a ? d - a : 0;
       const result = base * (b / 100) + over * (c / 100);
-    
+      // 小数点第1位を見て、0.5以上なら繰り上げ、未満なら切り捨て
+      const rounded = (result % 1 >= 0.5) ? Math.ceil(result) : Math.floor(result);
 
       document.getElementById("result").textContent =
         `(${base.toLocaleString()} × ${b}%) ＋ (${over.toLocaleString()} × ${c}%) ＝ ${result.toFixed(1).toLocaleString()}`;
