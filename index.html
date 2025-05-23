@@ -149,11 +149,15 @@
 
     function formatNumber(el) {
       let value = el.value.replace(/,/g, '');
-      if (!isNaN(value)) {
-        el.value = Number(value).toLocaleString();
-      } else {
-        el.value = '';
-      }
+      // 数値として有効な場合のみフォーマット
+  if (!isNaN(value) && value.trim() !== "") {
+    const cursorPos = el.selectionStart;
+    el.value = Number(value).toLocaleString();
+
+    // カーソルを末尾へ（入力しやすさ重視）
+    el.setSelectionRange(el.value.length, el.value.length);
+  } else {
+    el.value = '";}
     }
 
     // フォーカス移動＆Enter計算対応
