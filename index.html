@@ -150,18 +150,25 @@
         `<div class="calc-value">${rounded.toLocaleString()} 円</div>`;
     }
 
-    function formatNumber(el) {
-      let value = el.value.replace(/,/g, '');
-      // 数値として有効な場合のみフォーマット
-  if (!isNaN(value) && value.trim() !== "") {
-    const cursorPos = el.selectionStart;
-    el.value = Number(value).toLocaleString();
+  　　function formatNumber(el) {
+  　　　// カーソル位置の保存
+  　　const selectionStart = el.selectionStart;
 
-    // カーソルを末尾へ（入力しやすさ重視）
-    el.setSelectionRange(el.value.length, el.value.length);
-  } else {
-    el.value = '";}
-    }
+  　　　// 入力値からカンマを除去
+ 　　 let raw = el.value.replace(/,/g, '');
+
+  　　　// 数値として有効な場合のみフォーマット
+ 　　 if (/^\d+$/.test(raw)) {
+   　 el.value = Number(raw).toLocaleString();
+
+    　// カーソルを末尾に移動（編集しやすさ優先）
+   　 el.setSelectionRange(el.value.length, el.value.length);
+  　} else {
+    　// 無効な値は削除
+    　el.value = '';
+  　}　
+　}
+
 
     // フォーカス移動＆Enter計算対応
     window.addEventListener("DOMContentLoaded", () => {
