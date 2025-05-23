@@ -120,9 +120,7 @@
       const base = Math.min(d, a);
       const over = d > a ? d - a : 0;
       const result = base * (b / 100) + over * (c / 100);
-     //小数点以下四捨五入
-      const rounded = Math.round(result);
-
+    
 
       document.getElementById("result").textContent =
         `(${base.toLocaleString()} × ${b}%) ＋ (${over.toLocaleString()} × ${c}%) ＝ ${result.toFixed(1).toLocaleString()}`;
