@@ -69,7 +69,7 @@
     <!-- 1行目 -->
     <div class="line">
       <span class="left-label">
-        <input type="text" id="amountA" oninput="formatNumber(this)" value="1,000,000" placeholder="1,000,000" oninput="updateNextStart()" />
+        <input type="text" id="amountA" oninput="formatNumber(this); updateNextStart()" value="1,000,000" placeholder="1,000,000" />
       </span>
       <span>まで 税率</span>
       <input type="text" id="rateB"  value="10.21" placeholder="10.21" />
