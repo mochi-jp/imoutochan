@@ -108,7 +108,7 @@
     <!-- 1行目 -->
     <div class="line">
       <span class="left-label">
-        <input type="text" id="amountA" inputmode="decimal" pattern="\d*" oninput="formatNumber(this); updateNextStart()" value="1,000,000" placeholder="1,000,000" class="red-border" />
+        <input type="text" id="amountA" inputmode="numeric" pattern="\d*" oninput="formatNumber(this); updateNextStart()" value="1,000,000" placeholder="1,000,000" class="red-border" />
       </span>
       <span>まで 税率</span>
       <input type="text" id="rateB" inputmode="decimal" pattern="\d*" value="10.21" placeholder="10.21" class="narrow-input" />
@@ -126,7 +126,7 @@
     <!-- 3行目 -->
     <div class="line">
       <span class="left-label">計算する金額</span>
-      <input type="text" id="amountD" inputmode="decimal" pattern="\d*" oninput="formatNumber(this)" placeholder="例: 1,550,000" />
+      <input type="text" id="amountD" inputmode="numeric" pattern="\d*" oninput="formatNumber(this)" placeholder="例: 1,550,000" />
      </div>
      <div class="line">
        <button onclick="calculate()">計算する！</button>
