@@ -21,6 +21,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-wrap: wrap;  /* スマホ対応で折り返し */
     }
 
     input {
@@ -61,7 +62,7 @@
     .left-label {
       width: 130px;
       text-align: right;
-      display: inline-block;
+      flex-shrink: 0; 
     }
 
     .left-label input {
@@ -78,6 +79,7 @@
       width: 70px;
       border: 2px solid red;
       border-radius: 5px;
+      flex-shrink: 0;
     }
 
     .red-border {
@@ -93,6 +95,9 @@
       align-items: center; /* ボタン内の文字も上下中央に */
    }  
 
+    input[type="text"] {
+      max-width: 150px;
+  }  
   </style>
 </head>
 <body>
