@@ -10,16 +10,16 @@
       padding: 20px;
     }
 
-　　@media screen and (min-width: 481px) {
-	　　/* 481px以上に適用されるCSS（タブレット用） */
+    @media screen and (min-width: 481px) {
+      /* 481px以上に適用されるCSS（タブレット用） */
      width: 400px
-　　}
+    }
 
     .row {
       display: flex;
       flex-direction: column;
-　　  align-content: center;
-　　  align-content:: flex-start
+      align-content: center;
+      align-content:: flex-start
       gap: 15px;
       width: １００％;
     }
@@ -81,7 +81,7 @@
       align-items: center; 
   /*  margin-left: 10px;  */
   /*  }  */
-
+ 
     .narrow-input {
       width: 70px;
       border: 2px solid red;
@@ -170,24 +170,24 @@
         `<div class="calc-value">${rounded.toLocaleString()} 円</div>`;
     }
 
-  　　function formatNumber(el) {
-  　　　// カーソル位置の保存
-  　　const selectionStart = el.selectionStart;
+    function formatNumber(el) {
+      // カーソル位置の保存
+      const selectionStart = el.selectionStart;
 
-  　　　// 入力値からカンマを除去
- 　　 let raw = el.value.replace(/,/g, '');
+      // 入力値からカンマを除去
+      let raw = el.value.replace(/,/g, '');
 
-  　　　// 数値として有効な場合のみフォーマット
- 　　 if (/^\d+$/.test(raw)) {
-   　 el.value = Number(raw).toLocaleString();
+      // 数値として有効な場合のみフォーマット
+      if (/^\d+$/.test(raw)) {
+        el.value = Number(raw).toLocaleString();
 
-    　// カーソルを末尾に移動（編集しやすさ優先）
-   　 el.setSelectionRange(el.value.length, el.value.length);
-  　} else {
-    　// 無効な値は削除
-    　el.value = '';
-  　}　
-　}
+      // カーソルを末尾に移動（編集しやすさ優先）
+        el.setSelectionRange(el.value.length, el.value.length);
+      } else {
+      // 無効な値は削除
+        el.value = '';
+      } 
+    }
 
 
     // フォーカス移動＆Enter計算対応
