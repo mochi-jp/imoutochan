@@ -12,14 +12,14 @@
 
     @media screen and (min-width: 481px) {
       /* 481px以上に適用されるCSS（タブレット用） */
-     width: 400px
+     width: 400px;
     }
 
     .row {
       display: flex;
       flex-direction: column;
       align-content: center;
-      align-content:: flex-start
+      align-content: flex-start;
       gap: 15px;
       width: １００％;
     }
@@ -76,12 +76,6 @@
       width: 100%;
     }
 
-    .line button {
-      display: flex;
-      align-items: center; 
-  /*  margin-left: 10px;  */
-  /*  }  */
- 
     .narrow-input {
       width: 70px;
       border: 2px solid red;
@@ -94,10 +88,11 @@
     }
 
     .line button {
+      display: flex;
+      align-items: center;
       margin-left: 10px;
       height: 34px; /* 入力欄の高さに合わせる（必要なら調整OK） */
       padding: 5px 15px;
-      display: flex;
       align-items: center; /* ボタン内の文字も上下中央に */
    } 
   </style>
