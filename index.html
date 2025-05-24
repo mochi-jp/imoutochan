@@ -110,9 +110,12 @@
 
     <!-- 3行目 -->
     <div class="line">
+     <div>
       <span class="left-label">計算する金額</span>
       <input type="text" id="amountD" inputmode="decimal" pattern="\d*" oninput="formatNumber(this)" placeholder="例: 1,550,000" />
-      <button onclick="calculate()">計算する！</button>
+     </div>
+      
+       <button onclick="calculate()">計算する！</button>
     </div>
     <div id="result"></div>
 
