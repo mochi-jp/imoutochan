@@ -10,9 +10,11 @@
       padding: 20px;
     }
 
-    @media screen and (min-width: 481px) {
-      /* 481px以上に適用されるCSS（タブレット用） */
-     width: 400px;
+    @media screen and (min-width: 450px) {
+      /* 450px以上に適用されるCSS（タブレット用） */
+     body{
+       width: 400px;
+     /* margin: 0 auto; 画面中央にしたい場合 */  
     }
 
     .row {
@@ -21,7 +23,7 @@
       align-content: center;
       align-content: flex-start;
       gap: 15px;
-      width: １００％;
+      width: 100％;
     }
 
 
@@ -158,7 +160,7 @@
       const base = Math.min(d, a);
       const over = d > a ? d - a : 0;
       const result = base * (b / 100) + over * (c / 100);
-      const rounded = (result % 1 >= 0.5) ? Math.ceil(result) : Math.floor(result);
+      const rounded = Math.round(result); 
 
       document.getElementById("result").innerHTML =
         `<div class="calc-expression">(${base.toLocaleString()} × ${b}%) ＋ (${over.toLocaleString()} × ${c}%)</div>` +
